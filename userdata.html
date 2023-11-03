@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>userdata</h1>
+    <script>
+let userData = [
+            {
+                id: 1,
+                name: "John",
+                active: true,
+                subjects: ["Html", "CSS", "JavaScript"],
+                marks: {
+                    "Html": 80,
+                    "CSS": 40,
+                    "JavaScript": 60
+                }
+            },
+            {
+                id: 2,
+                name: "Paul",
+                active: true,
+                subjects: ["Html", "CSS", "JavaScript"],
+                marks: {
+                    "Html": 100,
+                    "CSS": 75,
+                    "JavaScript": 95
+                }
+            },
+            {
+                id: 3,
+                name: "steve",
+                active: true,
+                subjects: ["Html", "CSS", "JavaScript"],
+                marks: {
+                    "Html": 45,
+                    "CSS": 65,
+                    "JavaScript": 35
+                }
+            },
+            {
+                id: 4,
+                name: "Sam",
+                active: true,
+                subjects: ["Html", "CSS", "JavaScript"],
+                marks: {
+                    "Html": 78,
+                    "CSS": 65,
+                    "JavaScript": 90
+                }
+            },
+            {
+                id: 5,
+                name: "Joel",
+                active: true,
+                subjects: ["Html", "CSS", "JavaScript"],
+                marks: {
+                    "Html": 60,
+                    "CSS": 70,
+                    "JavaScript": 80
+                }
+            }
+        ];
+if(userData.length!=0){
+    for(let i=0;i<userData.length;i++){
+    console.log(userData[i]);
+    for(let temp in userData[i]){
+        console.log(temp,"=",userData[i][temp]);
+        if (Array.isArray(userData[i][temp])===true){
+            for(let j=0;j<userData[i][temp].length;j++){
+              console.log(userData[i][temp][j],"/");
+            }
+         }else if(typeof userData[i][temp]==="object" && !Array.isArray(userData[i][temp])){
+            for(let temp1 in userData[i][temp]){
+                console.log(temp1,"=",userData[i][temp][temp1]);
+            }
+        }
+    }
+  }
+}
+else{
+    console.log("There is no User Data is available...");
+}
+    </script>
+</body>
+</html>
