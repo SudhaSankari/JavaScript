@@ -197,8 +197,10 @@
                 arrayOfStudents.push(objNames);
                 localStorage.setItem("students",JSON.stringify( arrayOfStudents));
        });
-   btnList.addEventListener("click",()=>{
-           let arrayOfStudents=localStorage.getItem("students");
+   btnList.addEventListener("click",listStudentDetails );
+
+     function listStudentDetails(){
+        let arrayOfStudents=localStorage.getItem("students");
            console.log(arrayOfStudents);
                 if(arrayOfStudents!==null){
                     arrayOfStudents=JSON.parse(arrayOfStudents);
@@ -236,7 +238,9 @@
                 });
                 console.log(arrayOfStudents);
                 localStorage.setItem("students",JSON.stringify(arrayOfStudents));
-     });
+     }
+           
+    
      function deleteStudent(i){
                       let arrayOfStudents=localStorage.getItem("students");
                         if(arrayOfStudents!==null){
@@ -248,6 +252,7 @@
                         console.log(arrayOfStudents.splice(i,1));
                         console.log(arrayOfStudents,"arrayofstudents");
                         localStorage.setItem("students",JSON.stringify(arrayOfStudents));
+                        listStudentDetails();
                 }
    function updateStudent(i){
     console.log(i,"i from update ");
@@ -331,6 +336,7 @@
     arrayOfStudents[editIndex]['dob']=document.getElementById("newDob").value;
     console.log(arrayOfStudents[editIndex],"(arrayOfStudents[editIndex]");
    localStorage.setItem("students",JSON.stringify(arrayOfStudents));
+   listStudentDetails();
    }
    
     </script>
