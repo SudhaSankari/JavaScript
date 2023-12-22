@@ -12,14 +12,13 @@
            display:grid ;
            grid-template-columns: 100%;
            justify-content: center;
-           margin: 30px;
+           margin: 10px;
         }
         #studentForm > input,#studentForm > label,#studentForm > #btnSubmit{
          margin: auto;
         }
         label{
             font-size: large;
-           
         }
         #display,#heading{
             display:flex;
@@ -27,26 +26,29 @@
             width:100%;
         }
         #display > div,#heading> div{
-            width:20%;
+            width:16.6666666%;
             padding: 10px;
             border:solid 1px white;
         }
         #display > div{
-            background-color: rgb(35, 35, 7);
+            background-color:black;
             color:white;
         }
         #heading> div{
             text-align: center;
-            background-color:rgb(61, 89, 20);
+            background-color: rgb(102, 0, 255);
             color:white;
         }
         input{
+            font-size: medium;
             padding: 5px;
             width: 40%;
+            border: 1px solid #ccc;
+            margin: 10px;
         }
         #btnSubmit{
         border: 0;
-        background-color: red;
+        background-color: rgb(12, 92, 220);
         color:white;
         padding: 10px;
         border-radius: 5px;
@@ -54,11 +56,13 @@
         }
         #btnList{
             border: 0;
-            background-color: rgb(10, 72, 10);
-            color:white;
-        padding: 10px;
-        border-radius: 5px;
-        width: 20%;
+            background-color:yellow;
+            padding: 10px;
+            border-radius: 5px;
+            width: 20%;
+        }
+        #btnList:hover,#btnSubmit:hover{
+            background-color: green;
         }
         ::placeholder{
             font-style: italic;
@@ -67,12 +71,64 @@
         input:focus{
                 padding: 10px;
                 border-radius: 5px;
+                outline: 0;
+                border-color:rgb(25, 21, 219);
+                box-shadow: inset 0px 1px 1px rgb(93, 93, 241) ;
             }
          .del{
                 border-radius: 5px;
                 padding: 10px;
                 border: 0;
-                width: 20%;
+                width: 50%;
+                background-color: red;
+                margin: 10px;
+            }
+            .del:hover,.btnEdit:hover{
+                background-color:green;
+            }
+            .btnEdit{
+                border-radius: 5px;
+                padding: 10px;
+                border: 0;
+                width: 50%;
+                background-color: rgb(102, 0, 255);
+                margin: 10px;
+            }
+            #updateStudentDetails{
+                display: flex;
+                flex-wrap: wrap;
+                width:90%;
+                margin: auto;
+                margin-bottom: 10px;
+            }
+            #updateStudentDetails input{
+                align-items: center;
+                justify-content: center;
+            }
+            #editButton{
+                border-radius: 5px;
+                padding: 10px;
+                border: 0;
+                width: 15%;
+                background-color: rgb(102, 0, 255);
+                margin: 10px;
+            }
+            #editButton:hover,#cancelButton:hover{
+                 background-color: green;
+            }
+            #cancelButton{
+                border-radius: 5px;
+                padding: 10px;
+                border: 0;
+                width: 15%;
+                background-color: red;
+                margin: 10px;
+            }
+            #upHead{
+                font-size: larger;
+                text-align: center;
+                padding:5px;
+                margin: 5px;
             }
     </style>
 </head>
@@ -93,16 +149,18 @@
             <button id="btnSubmit">Submit</button>
             <br><br>
         </div>
-            <!-- <button id="btnDelete">Delete</button> -->
-            <button id="btnList">List All the Student details</button><br><br>
             <div id="delete"></div><br>
+            <div id="upHead"></div>
+            <div id="updateStudentDetails">
+            </div>
+            <button id="btnList">List All the Student details</button><br><br>
             <div id="heading">
                 <div>Student Name</div>
                 <div>Father's Name</div>
                 <div>Mother's Name</div>
                 <div>Email Id</div>
                 <div>Date of Birth</div>
-                <!-- <div>Actions</div> -->
+                <div>Actions</div>
             </div>
             <!-- display output -->
             <div id="display"></div>
@@ -110,86 +168,171 @@
     <script>
          let display=document.querySelector("#display");
          let btnList=document.querySelector("#btnList");
-         let btnDelete=document.createElement("button");
-         let divDelete=document.querySelector("#delete");
-            btnDelete.innerHTML="Delete";
-            btnDelete.style.color="white";
-            btnDelete.style.backgroundColor="red";
-            btnDelete.className="del";
-            divDelete.append(btnDelete);
-        document.querySelector("#btnSubmit").addEventListener("click",()=>{
+         let updateStudentDetatils=document.querySelector("#updateStudentDetails");
+         let upHead1=document.querySelector("#upHead");
+     document.querySelector("#btnSubmit").addEventListener("click",()=>{
           ///console.log("button is clicked");
-          let arrayOfStudents=localStorage.getItem("students");
-         /// console.log(arrayOfStudents);//display null
-          if (arrayOfStudents!==null){
-            arrayOfStudents=JSON.parse(arrayOfStudents);
-          }else{
-            arrayOfStudents=[];
-          }
-          console.log(arrayOfStudents);
-          let form=document.querySelectorAll(".input");
-          //console.log(form.length);
-            let objNames={};
-            //let arrayOfStudents=[];
-        form.forEach((v,i)=>{
-                //  console.log(v['id']);
-                // console.log(i=v['id']);
-                //console.log(v.value,i);
-                i=v['id'];
-                objNames[i]=v.value;
-            });
-        console.log(arrayOfStudents);
-        console.log(objNames);
-        arrayOfStudents.push(objNames);
-        localStorage.setItem("students",JSON.stringify( arrayOfStudents));
-     });
+                let arrayOfStudents=localStorage.getItem("students");
+                /// console.log(arrayOfStudents);//display null
+                    if (arrayOfStudents!==null){
+                        arrayOfStudents=JSON.parse(arrayOfStudents);
+                    }else{
+                        arrayOfStudents=[];
+                    }
+                console.log(arrayOfStudents);
+                let form=document.querySelectorAll(".input");
+                //console.log(form.length);
+                let objNames={};
+                //let arrayOfStudents=[];
+                    form.forEach((v,i)=>{
+                            //  console.log(v['id']);
+                            // console.log(i=v['id']);
+                            console.log(v.value);
+                            //console.log(i,"index");
+                           i=v['id'];
+                            objNames[i]=v.value;
+                        });
+                console.log(arrayOfStudents);
+                console.log(objNames);
+                arrayOfStudents.push(objNames);
+                localStorage.setItem("students",JSON.stringify( arrayOfStudents));
+       });
    btnList.addEventListener("click",()=>{
            let arrayOfStudents=localStorage.getItem("students");
            console.log(arrayOfStudents);
                 if(arrayOfStudents!==null){
                     arrayOfStudents=JSON.parse(arrayOfStudents);
-                }else{
+                }
+                else{
                     display.innerHTML="No Data Found!...";
                 }
-        let displayOutput="";
-        arrayOfStudents.forEach((v,i)=>{
-        // console.log(arrayOfStudents[i],"-->array");
-        // console.log(v.student);
+                let div1=document.createElement("div");
+            arrayOfStudents.forEach((v,i)=>{
                 for(let temp in arrayOfStudents[i]){
-                // console.log(temp,"index");
-                console.log("value",arrayOfStudents[i][temp]);
-                    displayOutput+=`<div>`+ arrayOfStudents[i][temp]+`</div>`;
+                  // console.log("value",arrayOfStudents[i][temp]);
+                    let tagDiv=document.createElement("div");
+                    tagDiv.innerText=arrayOfStudents[i][temp];
+                    console.log(tagDiv,"---tagDiv");
+                    display.append(tagDiv);
                 }
-            });
-            display.innerHTML=displayOutput;
-    ////delete button
-        //    let btnDelete=document.createElement("button");
-        //    btnDelete.innerHTML="Delete";
-        //    btnDelete.style.color="white";
-        //    btnDelete.style.backgroundColor="red";
-        //    btnDelete.className="del";
-        //    let display=document.querySelector("#display");
-        // display.appendChild(btnDelete);
-         btnDelete.addEventListener("click",()=>{
-                arrayOfStudents.splice(1,1);
+                        let actionD=document.createElement("div");
+                        let btnDelete=document.createElement("button");
+                        btnDelete.innerText="Delete";
+                        btnDelete.setAttribute("class","del");
+                        let btnEdit=document.createElement("button");
+                        btnEdit.innerHTML="Edit";
+                        btnEdit.className="btnEdit";
+                            display.append(actionD);
+                            actionD.appendChild(btnDelete);
+                            actionD.appendChild(btnEdit);
+                            btnDelete.addEventListener("click",()=>{
+                                deleteStudent(i);
+                                console.log("delete button is clicked");
+                            });
+                            btnEdit.addEventListener("click",()=>{
+                               console.log("update button is clicked");
+                               updateStudent(i);
+                            });
+                });
                 console.log(arrayOfStudents);
                 localStorage.setItem("students",JSON.stringify(arrayOfStudents));
-            });
-
-
-
-
-
- });
-       
-      
-
-
-
-
-
-
-      
+     });
+     function deleteStudent(i){
+                      let arrayOfStudents=localStorage.getItem("students");
+                        if(arrayOfStudents!==null){
+                        arrayOfStudents=JSON.parse(arrayOfStudents);
+                        }
+                        else{
+                            display.innerHTML="No Data Found!...";
+                        }
+                        console.log(arrayOfStudents.splice(i,1));
+                        console.log(arrayOfStudents,"arrayofstudents");
+                        localStorage.setItem("students",JSON.stringify(arrayOfStudents));
+                }
+   function updateStudent(i){
+    console.log(i,"i from update ");
+         let arrayOfStudents=localStorage.getItem("students");
+                        if(arrayOfStudents!==null){
+                        arrayOfStudents=JSON.parse(arrayOfStudents);
+                        console.log(arrayOfStudents,"---from update button")
+                        }
+                        else{
+                            display.innerHTML="No Data Found!...";
+                        }
+       // console.log(updateStudentDetatils);
+                        let upHead=document.createElement("div");
+                        upHead.setAttribute("id","upHead");
+                        upHead.innerText="Edit Your Details";
+                        let student=document.createElement("input");
+                        let father=document.createElement("input");
+                        let mother=document.createElement("input");
+                        let emailId=document.createElement("input");
+                        let dob=document.createElement("input");
+                        let editDetails=document.createElement("button");
+                        let btnCancel=document.createElement("button");
+                        student.setAttribute("type","text");
+                        student.setAttribute("id","newStudent");
+                        father.setAttribute("id","newFather");
+                        mother.setAttribute("id","newMother");
+                        emailId.setAttribute("id","newEmailId");
+                        dob.setAttribute("id","newDob");
+                        student.setAttribute("placeholder","Enter student name here..");
+                        father.setAttribute("type","text");
+                        father.setAttribute("palceholder","Enter father's name here...");
+                        mother.setAttribute("type","text");
+                        mother.setAttribute("placeholder","Enter Mother's name here...");
+                        emailId.setAttribute("type","email");
+                        emailId.setAttribute("placeholder","Enter your Email Id here...");
+                        dob.setAttribute("type","date");
+                        editDetails.innerText="Update";
+                        editDetails.setAttribute("id","editButton");
+                        btnCancel.innerText="Cancel";
+                        btnCancel.setAttribute("id","cancelButton");
+                       upHead1.append(upHead);
+                        updateStudentDetatils.append(student);
+                        updateStudentDetatils.append(father);
+                        updateStudentDetatils.append(mother);
+                        updateStudentDetatils.append(emailId);
+                        updateStudentDetatils.append(dob);
+                        updateStudentDetatils.append(editDetails);
+                       updateStudentDetatils.append(btnCancel);
+                       editDetails.addEventListener("click",()=>{
+                        editStudentDetails(i);
+                       });
+                       btnCancel.addEventListener("click",()=>{
+                        console.log("cancel button is clicked");
+                            editDetails.style.display="none";
+                            btnCancel.style.display="none";
+                            student.style.display="none";
+                            father.style.display="none";
+                            mother.style.display="none";
+                            emailId.style.display="none";
+                            dob.style.display="none";
+                            upHead.style.display="none";
+                       });
+   }
+   function editStudentDetails(i){
+    console.log(i,"i from edit");
+    let arrayOfStudents=localStorage.getItem("students");
+                        if(arrayOfStudents!==null){
+                        arrayOfStudents=JSON.parse(arrayOfStudents);
+                        }
+                        else{
+                            display.innerHTML="No Data Found!...";
+                        }
+                        console.log(arrayOfStudents,"from edit details");
+                        console.log(arrayOfStudents[i],"---array in editdetails");
+   let editIndex=i;
+   console.log(editIndex,"editIndex");
+    arrayOfStudents[editIndex]['student']=document.getElementById("newStudent").value;
+    arrayOfStudents[editIndex]['father']=document.getElementById("newFather").value;
+    arrayOfStudents[editIndex]['mother']=document.getElementById("newMother").value;
+    arrayOfStudents[editIndex]['email']=document.getElementById("newEmailId").value;
+    arrayOfStudents[editIndex]['dob']=document.getElementById("newDob").value;
+    console.log(arrayOfStudents[editIndex],"(arrayOfStudents[editIndex]");
+   localStorage.setItem("students",JSON.stringify(arrayOfStudents));
+   }
+   
     </script>
 </body>
 </html>
